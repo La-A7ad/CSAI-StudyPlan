@@ -1,0 +1,3 @@
+/home/francophobia/CLionProjects/CSAI-SP/cmake-build-debug/CMakeFiles/CSAI_SP.dir
+/home/francophobia/CLionProjects/CSAI-SP/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/francophobia/CLionProjects/CSAI-SP/cmake-build-debug/CMakeFiles/rebuild_cache.dir
