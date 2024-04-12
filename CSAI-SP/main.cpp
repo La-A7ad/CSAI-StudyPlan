@@ -13,7 +13,7 @@ json loadData() {
     std::string jsonData = R"({
       "Majors": {
         "DSAI": {
-          "Concentrations": [null]
+          "Concentrations": ["DSAI"]
         },
         "SWD": {
           "Concentrations": ["HCI", "APD", "GD"]
@@ -56,12 +56,47 @@ public:
 
     // Function to configure student from console input
     bool setDetails(const json& data) {
-        std::cout << "Enter your major: ";
-        std::cin >> major;
-        std::cout << "Enter your concentration: ";
-        std::cin >> concentration;
-        std::cout << "Enter your year: ";
-        std::cin >> year;
+        while (true) {
+            std::cout << "Enter your major: ";
+            if (!(std::cin >> major)) {
+                std::cin.clear(); // Clears error flags
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignores incorrect input until the next line
+                std::cout << "Invalid input. Please try again.\n";
+                continue; // Skip to the next iteration of the loop
+            }
+
+            std::cout << "Enter your concentration: ";
+            if (!(std::cin >> concentration)) {
+                std::cin.clear(); // Clears error flags
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignores incorrect input until the next line
+                std::cout << "Invalid input. Please try again.\n";
+                continue; // Skip to the next iteration of the loop
+            }
+
+            std::cout << "Enter your year: ";
+            if (!(std::cin >> year)) {
+                std::cin.clear(); // Clears error flags
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignores incorrect input until the next line
+                std::cout << "Invalid input. Please try again.\n";
+                continue; // Skip to the next iteration of the loop
+            }
+
+            auto majors = data["Majors"];
+            if (majors.contains(major) &&
+                find(majors[major]["Concentrations"].begin(), majors[major]["Concentrations"].end(), concentration) != majors[major]["Concentrations"].end()) {
+                auto years = data["Years"];
+                if (find(years.begin(), years.end(), year) != years.end()) {
+                    break; // Break out of the loop on successful configuration
+                } else {
+                    std::cout << "Invalid year entered. Please try again.\n";
+                    continue; // Invalid year, continue asking for correct input
+                }
+            } else {
+                std::cout << "Invalid major or concentration entered. Please try again.\n";
+                continue; // Invalid major or concentration, continue asking for correct input
+            }
+        }
+
         std::cout << "Enter your cGPA: ";
         std::cin >> cGPA;
 
